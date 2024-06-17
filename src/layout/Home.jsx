@@ -1,8 +1,8 @@
 import React from "react";
 
 const Home = () => {
-    return(<div>
-        
+    return(<div className="bg-[#f00000]">
+         a
     </div>);
 };
 
