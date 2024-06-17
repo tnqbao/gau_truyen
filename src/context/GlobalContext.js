@@ -6,7 +6,7 @@ export const GlobalContext = createContext();
 export const GlobalProvider = ({ children }) => {
   const [category, setCategory] = useState(null);
   const [keyWord, setKeyWords] = useState("");
-  const [DOMAIN_API] = useState("");
+  const [DOMAIN_API] = useState("https://otruyenapi.com");
   const [limit, setLimit] = useState(10);
   const [ep, setEpisode] = useState(1);
   const [page, setPage] = useState(1);
