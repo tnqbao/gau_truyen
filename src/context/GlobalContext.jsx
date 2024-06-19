@@ -11,7 +11,7 @@ export const GlobalProvider = ({ children }) => {
   const [ep, setEpisode] = useState(1);
   const [page, setPage] = useState(1);
   const [apiURL, setApiURL] = useState(
-    "https://ophim1.com/v1/api/danh-sach/phim-moi?page=1"
+    `${DOMAIN_API}/v1/api/danh-sach/truyen-moi?page=1`
   );
   const [viewedEpisodes, setViewedEpisodes] = useState({});
   const navigate = useNavigate();
@@ -32,40 +32,29 @@ export const GlobalProvider = ({ children }) => {
     setApiURL(url);
   };
 
-  const handleCategorySelect = (newCategory) => {
+  const handleMenuSelect = (newCategory) => {
     setCategory(newCategory);
     setPage(1);
     setEpisode(1);
+    console.log(newCategory);
     let url = "";
     switch (newCategory) {
       case "Trang Chủ":
         break;
-      case "Phim Lẻ":
-        url = `${DOMAIN_API}/v1/api/danh-sach/phim-le?page=1`;
+      case "Truyện Mới":
+        url = `${DOMAIN_API}/v1/api/danh-sach/truyen-moi?page=1`;
         break;
-      case "Phim Bộ":
-        url = `${DOMAIN_API}/v1/api/danh-sach/phim-bo?page=1`;
+      case "Truyện Full":
+        url = `${DOMAIN_API}/v1/api/danh-sach/hoan-thanh?page=1`;
         break;
-      case "Hoạt Hình":
-        url = `${DOMAIN_API}/v1/api/danh-sach/hoat-hinh?page=1`;
+      case "Truyện Đang Ra":
+        url = `${DOMAIN_API}/v1/api/danh-sach/dang-phat-hanh?page=1`;
         break;
-      case "TV Show":
-        url = `${DOMAIN_API}/v1/api/danh-sach/tv-shows?page=1`;
-        break;
-      case "Thuyết Minh":
-        url = `${DOMAIN_API}/v1/api/danh-sach/phim-thuyet-minh?page=1`;
-        break;
-      case "Lồng Tiếng":
-        url = `${DOMAIN_API}/v1/api/danh-sach/phim-long-tieng?page=1`;
-        break;
-      case "Phim Sắp Chiếu":
-        url = `${DOMAIN_API}/v1/api/danh-sach/phim-sap-chieu?page=1`;
-        break;
-      case "Phim Vietsub":
-        url = `${DOMAIN_API}/v1/api/danh-sach/phim-vietsub?page=1`;
+      case "Truyện Sắp Ra Mắt":
+        url = `${DOMAIN_API}/v1/api/danh-sach/sap-ra-mat?page=1`;
         break;
       default:
-        url = `${DOMAIN_API}/v1/api/danh-sach/phim-moi?page=1`;
+        url = `${DOMAIN_API}/v1/api/the-loai/${newCategory}?page=1`;
         break;
     }
     setApiURL(url);
@@ -116,7 +105,7 @@ export const GlobalProvider = ({ children }) => {
         setPage,
         setApiURL,
         handleCategorySearch,
-        handleCategorySelect,
+        handleMenuSelect,
         handlePageChange,
         handleEpisodeChange,
         setViewedEpisodes,

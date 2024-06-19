@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Router>
-      <div className="bg-[#121111] min-h-screen"> 
+      <div className="bg-[#ffffffea] min-h-screen"> 
         <App />
       </div>
     </Router>
