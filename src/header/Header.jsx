@@ -37,7 +37,7 @@ const Header = () => {
 
   const handleCategoryClick = () => {
     handleCategorySearch(searchTerm);
-    navigate(`/${searchTerm.replace(/\s+/g, "-").toLowerCase()}`);
+    navigate(`/danh-sach/${searchTerm.replace(/\s+/g, "-").toLowerCase()}`);
   };
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -79,7 +79,7 @@ const Header = () => {
       >
         <input
           id="search-input"
-          className="w-full p-2 md:p-4 rounded-md border-2 border- outline-none focus:border-slate-700 text-xl"
+          className="w-full p-2 md:p-4 rounded-md border-2 border- outline-none focus:border-slate-700 text-xl text-black/80"
           type="search"
           placeholder="Tìm Kiếm"
           value={searchTerm}

@@ -1,4 +1,5 @@
-import React, { createContext, useCallback, useState, useEffect } from "react";
+import React, { createContext, useCallback, useState, useMemo } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export const GlobalContext = createContext();
@@ -6,9 +7,7 @@ export const GlobalContext = createContext();
 export const GlobalProvider = ({ children }) => {
   const [category, setCategory] = useState(null);
   const [keyWord, setKeyWords] = useState("");
-  const [DOMAIN_API] = useState("https://otruyenapi.com");
-  const [limit, setLimit] = useState(10);
-  const [ep, setEpisode] = useState(1);
+  const DOMAIN_API = "https://otruyenapi.com";
   const [page, setPage] = useState(1);
   const [apiURL, setApiURL] = useState(
     `${DOMAIN_API}/v1/api/danh-sach/truyen-moi?page=1`
@@ -16,50 +15,63 @@ export const GlobalProvider = ({ children }) => {
   const [viewedEpisodes, setViewedEpisodes] = useState({});
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const watchedEpisodes =
-      JSON.parse(localStorage.getItem("watchedEpisodes")) || {};
-    setViewedEpisodes(watchedEpisodes);
+  const getDataAPI = useCallback(async (apiURL, setParaFunc) => {
+    try {
+      const response = await axios.get(apiURL);
+      setParaFunc(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   }, []);
 
   const handleCategorySearch = (keyWords) => {
-    if (!keyWords) keyWords = null;
-    setKeyWords(keyWords);
-    setCategory(keyWords);
-    setEpisode(1);
+    setKeyWords(keyWords || "");
+    setCategory(keyWords || null);
     setPage(1);
-    const url = `${DOMAIN_API}/v1/api/tim-kiem?keyword=${keyWords}&page=1`;
-    setApiURL(url);
+    setApiURL(`${DOMAIN_API}/v1/api/tim-kiem?keyword=${keyWords || ""}&page=1`);
   };
+
+  const handleComicClick = useCallback(
+    (comic) => {
+      navigate(`/truyen-tranh/${comic.slug}`);
+    },
+    [navigate]
+  );
 
   const handleMenuSelect = (newCategory) => {
     setCategory(newCategory);
     setPage(1);
-    setEpisode(1);
-    console.log(newCategory);
-    let url = "";
-    switch (newCategory) {
-      case "Trang Chủ":
-        break;
-      case "Truyện Mới":
-        url = `${DOMAIN_API}/v1/api/danh-sach/truyen-moi?page=1`;
-        break;
-      case "Truyện Full":
-        url = `${DOMAIN_API}/v1/api/danh-sach/hoan-thanh?page=1`;
-        break;
-      case "Truyện Đang Ra":
-        url = `${DOMAIN_API}/v1/api/danh-sach/dang-phat-hanh?page=1`;
-        break;
-      case "Truyện Sắp Ra Mắt":
-        url = `${DOMAIN_API}/v1/api/danh-sach/sap-ra-mat?page=1`;
-        break;
-      default:
-        url = `${DOMAIN_API}/v1/api/the-loai/${newCategory}?page=1`;
-        break;
-    }
+    const categoryURLs = {
+      "Trang Chủ": "/",
+      "Truyện Mới": `${DOMAIN_API}/v1/api/danh-sach/truyen-moi?page=1`,
+      "Truyện Full": `${DOMAIN_API}/v1/api/danh-sach/hoan-thanh?page=1`,
+      "Truyện Đang Ra": `${DOMAIN_API}/v1/api/danh-sach/dang-phat-hanh?page=1`,
+      "Truyện Sắp Ra Mắt": `${DOMAIN_API}/v1/api/danh-sach/sap-ra-mat?page=1`,
+    };
+
+    const extractCategory = (url) => {
+      const matchDs = url.match(/danh-sach\/(.*?)\?/);
+      const matchTl = url.match(/the-loai\/(.*?)\?/);
+      if (matchDs) {
+        return matchDs[1];
+      }
+      if (matchTl) {
+        return matchTl[1];
+      }
+      return "";
+    };
+
+    const url =
+      categoryURLs[newCategory] ||
+      `${DOMAIN_API}/v1/api/the-loai/${newCategory}?page=1`;
     setApiURL(url);
+    console.log(url);
+
     if (newCategory === "Trang Chủ") {
       navigate("/");
+    } else {
+      const extractedCategory = extractCategory(url);
+      navigate("/danh-sach/" + extractedCategory);
     }
   };
 
@@ -72,46 +84,51 @@ export const GlobalProvider = ({ children }) => {
     (slug, episode, server) => {
       const watchedEpisodes =
         JSON.parse(localStorage.getItem("watchedEpisodes")) || {};
-      if (!watchedEpisodes[slug]) {
-        watchedEpisodes[slug] = [];
-        watchedEpisodes[slug].push("1", "Full");
-      }
+      watchedEpisodes[slug] = watchedEpisodes[slug] || ["1", "Full"];
       if (!watchedEpisodes[slug].includes(episode)) {
         watchedEpisodes[slug].push(episode);
       }
       localStorage.setItem("watchedEpisodes", JSON.stringify(watchedEpisodes));
       setViewedEpisodes(watchedEpisodes);
-      setEpisode(episode);
       navigate(`/movie/${slug}/watch?ep=${episode}&server=${server}`);
     },
     [navigate]
   );
 
+  const value = useMemo(
+    () => ({
+      category,
+      keyWord,
+      DOMAIN_API,
+      page,
+      apiURL,
+      viewedEpisodes,
+      setCategory,
+      setKeyWords,
+      setPage,
+      setApiURL,
+      handleCategorySearch,
+      handleMenuSelect,
+      handlePageChange,
+      handleEpisodeChange,
+      setViewedEpisodes,
+      getDataAPI,
+      handleComicClick, 
+    }),
+    [
+      category,
+      keyWord,
+      page,
+      apiURL,
+      viewedEpisodes,
+      DOMAIN_API,
+      getDataAPI,
+      handleEpisodeChange,
+      handleComicClick, 
+    ]
+  );
+
   return (
-    <GlobalContext.Provider
-      value={{
-        category,
-        keyWord,
-        DOMAIN_API,
-        limit,
-        ep,
-        page,
-        apiURL,
-        viewedEpisodes,
-        setCategory,
-        setKeyWords,
-        setLimit,
-        setEpisode,
-        setPage,
-        setApiURL,
-        handleCategorySearch,
-        handleMenuSelect,
-        handlePageChange,
-        handleEpisodeChange,
-        setViewedEpisodes,
-      }}
-    >
-      {children}
-    </GlobalContext.Provider>
+    <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
   );
 };

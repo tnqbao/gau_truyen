@@ -19,10 +19,10 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/:category" element={<ComicList />} />
-            <Route path="/truyen/:slug" element={<ComicDetail />} />
+            <Route path="/danh-sach/:category" element={<ComicList />} />
+            <Route path="/truyen-tranh/:slug" element={<ComicDetail />} />
             <Route
-              path="/truyen/:slug/chap=:chap"
+              path="/truyen-tranh/:slug/chap=:chap"
               element={<ChapterContent />}
             />
           </Routes>
