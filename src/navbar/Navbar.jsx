@@ -53,7 +53,7 @@ const Navbar = () => {
                     className="text-slate-200 text-xl font-medium ml-5 block p-7 cursor-pointer text-balance border-y-slate-500 hover:bg-[#2c3f3b] relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
                     onClick={() => {
                       handleMenuSelect(e);
-                      setMenuOpen(false); // Hide menu on selection
+                      setMenuOpen(false); 
                     }}
                   >
                     {e}

@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 
 const ComicList = () => {
   const [comics, setComics] = useState([]);
+  const [dataAPI, setDataAPI] = useState({})
   const [totalPages, setTotalPages] = useState(1);
   const { apiURL, getDataAPI, handlePageChange, page , handleComicClick, category, DOMAIN_API} = useContext(GlobalContext);
   
@@ -39,9 +40,10 @@ const ComicList = () => {
   const columnCount = getColumnCount();
 
   useEffect(() => {
-    getDataAPI(`${apiURL}/v1/api/the-loai`, (data) => {
+    getDataAPI(`${apiURL}`, (data) => {
       if (Array.isArray(data.data.items)) {
         setComics(data.data.items);
+        setDataAPI(data.data);
         setTotalPages(
           Math.ceil(
             data.data.params.pagination.totalItems /
@@ -72,7 +74,6 @@ const ComicList = () => {
   return (
     <div className="bg-[#121111]">
       <Helmet>
-        {/* <title>{category} - Cú Phim</title> */}
         <meta
           name="description"
           content={`Danh sách phim thuộc thể loại ${category}. Tìm phim mới nhất và phổ biến nhất trong thể loại này.`}
@@ -80,8 +81,8 @@ const ComicList = () => {
       </Helmet>
       <br />
       <br />
-      <h1 className="font-bold text-center text-zinc-50 text-4xl">
-        {category}
+      <h1 className="font-bold text-center  text-zinc-50 text-xl lg:text-4xl">
+        {String(dataAPI.titlePage).toUpperCase()}
       </h1>
       <br />
       <div className="flex justify-center border-solid-[#dba902]">

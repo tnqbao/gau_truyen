@@ -10,13 +10,14 @@ export const GlobalProvider = ({ children }) => {
   const DOMAIN_API = "https://otruyenapi.com";
   const [page, setPage] = useState(1);
   const [apiURL, setApiURL] = useState(
-    `${DOMAIN_API}/v1/api/danh-sach/truyen-moi?page=1`
+    `${DOMAIN_API}/v1/api/home`
   );
   const [viewedEpisodes, setViewedEpisodes] = useState({});
   const navigate = useNavigate();
 
   const getDataAPI = useCallback(async (apiURL, setParaFunc) => {
     try {
+      console.log(apiURL)
       const response = await axios.get(apiURL);
       setParaFunc(response.data);
     } catch (error) {
@@ -68,7 +69,7 @@ export const GlobalProvider = ({ children }) => {
     console.log(url);
 
     if (newCategory === "Trang Chủ") {
-      navigate("/");
+      navigate("/home");
     } else {
       const extractedCategory = extractCategory(url);
       navigate("/danh-sach/" + extractedCategory);

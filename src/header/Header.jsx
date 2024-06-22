@@ -7,7 +7,7 @@ import React, {
 import {useNavigate} from "react-router-dom"
 import { GlobalContext } from "../context/GlobalContext";
 const Header = () => {
-  const { handleCategorySearch, setCategory } = useContext(GlobalContext);
+  const { handleCategorySearch, setCategory, setApiURL, DOMAIN_API, apiURL} = useContext(GlobalContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const navigate = useNavigate();
@@ -31,8 +31,10 @@ const Header = () => {
 
   const handleHomeClick = () => {
     setCategory(null);
-    handleCategorySearch("");
-    navigate(`/`);
+    handleCategorySearch(null);
+    setApiURL(`${DOMAIN_API}/v1/api/home`);
+    console.log(apiURL);
+    navigate(`/home`);
   };
 
   const handleCategoryClick = () => {
