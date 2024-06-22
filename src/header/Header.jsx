@@ -34,7 +34,7 @@ const Header = () => {
     handleCategorySearch(null);
     setApiURL(`${DOMAIN_API}/v1/api/home`);
     console.log(apiURL);
-    navigate(`/home`);
+    navigate(`/`);
   };
 
   const handleCategoryClick = () => {

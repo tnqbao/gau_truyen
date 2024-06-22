@@ -18,7 +18,7 @@ function App() {
           <Header />
           <Navbar />
           <Routes>
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/danh-sach/:category" element={<Home />} />
             <Route path="/truyen-tranh/:slug" element={<ComicDetail />} />
             <Route
