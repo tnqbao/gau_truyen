@@ -10,7 +10,7 @@ const Home = () => {
       <Helmet>
         <title>Gấu Truyện</title>
       </Helmet>
-      <div className=" flex bg-[#121111] mx-5 md:mx-20 h-2/4">
+      <div className=" flex bg-[#121111] mx-5 md:mx-20 h-2/4 p-10">
         {category ? <ComicList /> : <ComicSlider />}
         <div>{category ? "" : <ComicList />}</div>
       </div>

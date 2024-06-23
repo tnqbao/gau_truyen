@@ -4,7 +4,7 @@ const ComicSlider = () => {
     return (
         <>
             <div>
-             
+                
             </div>
         </>
     );

@@ -38,7 +38,7 @@ const CategoriesSelectMenu = () => {
     <div className="relative">
       <div
         id="cate-list"
-        className={`absolute bg-white shadow-lg rounded-lg mt-2 p-4 left-0 z-10 text-black ${
+        className={`absolute bg-gray-800 shadow-lg rounded-lg mt-2 p-4 left-0 z-10 text-black ${
           menuOpen ? "" : "hidden"
         }`}
       >
@@ -46,7 +46,7 @@ const CategoriesSelectMenu = () => {
           {categories.map((category) => (
             <div
               key={category._id}
-              className="p-2 hover:bg-gray-200 cursor-pointer bg-black/30"
+              className="p-2 hover:bg-gray-200 hover:text-black text-black font-medium cursor-pointer bg-orange-300/60 rounded-md border-zinc-800"
               onClick={() => {
                 handleMenuSelect(category.slug);
                 setMenuOpen(false); 

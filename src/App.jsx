@@ -8,6 +8,8 @@ import ComicDetail from "./contents/ComicDetail";
 import { GlobalProvider } from "./context/GlobalContext";
 import { Route, Routes } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+
+
 import Footer from "./footer/Footer";
 
 function App() {

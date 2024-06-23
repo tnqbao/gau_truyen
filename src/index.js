@@ -8,11 +8,13 @@ import { BrowserRouter as Router } from "react-router-dom";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
+    
     <Router>
       <div className="bg-teal-50 min-h-screen"> 
         <App />
       </div>
     </Router>
+      
   </React.StrictMode>
 );
 

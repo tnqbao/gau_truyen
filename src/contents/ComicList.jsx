@@ -1,20 +1,27 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import ComicCard from "./ComicCard";
-import { Helmet } from "react-helmet"; 
+import { Helmet } from "react-helmet";
 
 const ComicList = () => {
   const [comics, setComics] = useState([]);
-  const [dataAPI, setDataAPI] = useState({})
+  const [dataAPI, setDataAPI] = useState({});
   const [totalPages, setTotalPages] = useState(1);
-  const { apiURL, getDataAPI, handlePageChange, page , handleComicClick, category, DOMAIN_API} = useContext(GlobalContext);
-  
+  const {
+    apiURL,
+    getDataAPI,
+    handlePageChange,
+    page,
+    handleComicClick,
+    category,
+    DOMAIN_API,
+  } = useContext(GlobalContext);
+
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
 
-  
   useEffect(() => {
     const handleResize = () => {
       setWindowSize({
@@ -27,7 +34,7 @@ const ComicList = () => {
   }, []);
 
   const getColumnCount = () => {
-    return Math.ceil((windowSize.width - 640) / 256 + 1);
+    return Math.ceil((windowSize.width - 640) / 256 + 2);
   };
 
   const goToPage = useCallback(
@@ -76,50 +83,54 @@ const ComicList = () => {
       <Helmet>
         <meta
           name="description"
-          content={`Danh sách phim thuộc thể loại ${category}. Tìm phim mới nhất và phổ biến nhất trong thể loại này.`}
+          content={`Danh sách truyện thuộc thể loại ${category}. Tìm truyện mới nhất và phổ biến nhất trong thể loại này.`}
         />
       </Helmet>
       <br />
       <br />
       <h1 className="font-bold text-center  text-zinc-50 text-xl lg:text-4xl">
-        {String(dataAPI.titlePage).toUpperCase()}
+        {dataAPI.titlePage && String(dataAPI.titlePage).toUpperCase()}
       </h1>
       <br />
-      <div className="flex justify-center border-solid-[#dba902]">
-        <button
-          className="flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold bg-gray-800 text-white relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
-          onClick={() => handlePageChange(page - 1)}
-          disabled={page === 1}
-        >
-          Trang Trước
-        </button>
-        {getPageNumbers().map((pageNumber) => (
+      {dataAPI.titlePage ? (
+        <div className={"flex justify-center p-10 border-solid-[#dba902]"}>
           <button
-            key={pageNumber}
-            disabled={pageNumber === "..."}
-            onClick={() => {
-              if (pageNumber !== "...") {
-                goToPage(pageNumber);
-              }
-            }}
-            className={
-              "flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300 " +
-              (pageNumber === page
-                ? "bg-[#dba902] text-black"
-                : "bg-gray-800 text-white hidden md:block")
-            }
+            className="flex-1  cursor-pointer p-3.5 m-6 rounded-md font-bold bg-gray-800 text-white relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
           >
-            {pageNumber}
+            Trang Trước
           </button>
-        ))}
-        <button
-          className="flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold bg-gray-800 text-white relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
-          onClick={() => handlePageChange(page + 1)}
-          disabled={page >= totalPages}
-        >
-          Trang Sau
-        </button>
-      </div>
+          {getPageNumbers().map((pageNumber) => (
+            <button
+              key={pageNumber}
+              disabled={pageNumber === "..."}
+              onClick={() => {
+                if (pageNumber !== "...") {
+                  goToPage(pageNumber);
+                }
+              }}
+              className={
+                "flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300 " +
+                (pageNumber === page
+                  ? "bg-[#dba902] text-black"
+                  : "bg-gray-800 text-white hidden md:block")
+              }
+            >
+              {pageNumber}
+            </button>
+          ))}
+          <button
+            className="flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold bg-gray-800 text-white relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page >= totalPages}
+          >
+            Trang Sau
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
       <div className="border-2 border-double border-amber-500 overflow-hidden">
         <div className="flex flex-wrap justify-start">
           {Array.isArray(comics) &&
@@ -141,41 +152,45 @@ const ComicList = () => {
             ))}
         </div>
       </div>
-      <div className="flex justify-center border-solid-[#dba902]">
-        <button
-          className="flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold bg-gray-800 text-white relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
-          onClick={() => handlePageChange(page - 1)}
-          disabled={page === 1}
-        >
-          Trang Trước
-        </button>
-        {getPageNumbers().map((pageNumber) => (
+      {dataAPI.titlePage ? (
+        <div className={"flex justify-center border-solid-[#dba902] p-10"}>
           <button
-            key={pageNumber}
-            disabled={pageNumber === "..."}
-            onClick={() => {
-              if (pageNumber !== "...") {
-                goToPage(pageNumber);
-              }
-            }}
-            className={
-              "flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300 " +
-              (pageNumber === page
-                ? "bg-[#dba902] text-black"
-                : "bg-gray-800 text-white hidden md:block")
-            }
+            className="flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold bg-gray-800 text-white relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
           >
-            {pageNumber}
+            Trang Trước
           </button>
-        ))}
-        <button
-          className="flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold bg-gray-800 text-white relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
-          onClick={() => handlePageChange(page + 1)}
-          disabled={page >= totalPages}
-        >
-          Trang Sau
-        </button>
-      </div>
+          {getPageNumbers().map((pageNumber) => (
+            <button
+              key={pageNumber}
+              disabled={pageNumber === "..."}
+              onClick={() => {
+                if (pageNumber !== "...") {
+                  goToPage(pageNumber);
+                }
+              }}
+              className={
+                "flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300 " +
+                (pageNumber === page
+                  ? "bg-[#dba902] text-black"
+                  : "bg-gray-800 text-white hidden md:block")
+              }
+            >
+              {pageNumber}
+            </button>
+          ))}
+          <button
+            className="flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold bg-gray-800 text-white relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page >= totalPages}
+          >
+            Trang Sau
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
