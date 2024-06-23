@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="bg-[#1e2020] p-4 flex flex-wrap items-center justify-between w-full mt-8 z-40">
+    <div className="bg-[#1e2020] p-4 flex flex-wrap items-center justify-between w-full z-40">
       <div className="basis-1/2">  * </div>
       <div className="basis-1/2 max-w-[1400px] mx-auto p-4 md:px-9 text-right space-y-4">
         <span className="font-black text-2xl animate-pulse duration-1000 ">

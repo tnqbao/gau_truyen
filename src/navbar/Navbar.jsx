@@ -34,7 +34,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="relative">
+      <div className="relative ">
         <div
           className={`bg-gray-800 text-white flex items-center justify-between border-2 border-[#1e2020] ${
             menuOpen ? "" : ""

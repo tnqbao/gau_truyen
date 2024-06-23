@@ -46,7 +46,7 @@ const CategoriesSelectMenu = () => {
           {categories.map((category) => (
             <div
               key={category._id}
-              className="p-2 hover:bg-gray-200 hover:text-black text-black font-medium cursor-pointer bg-orange-300/60 rounded-md border-zinc-800"
+              className="p-2 hover:bg-gray-200 hover:text-black text-black font-medium cursor-pointer bg-slate-100/60 rounded-md border-zinc-800"
               onClick={() => {
                 handleMenuSelect(category.slug);
                 setMenuOpen(false); 

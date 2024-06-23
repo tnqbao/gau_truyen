@@ -66,7 +66,6 @@ export const GlobalProvider = ({ children }) => {
       categoryURLs[newCategory] ||
       `${DOMAIN_API}/v1/api/the-loai/${newCategory}?page=1`;
     setApiURL(url);
-    console.log(url);
 
     if (newCategory === "Trang Chủ") {
       navigate("/home");

@@ -14,7 +14,7 @@ import Footer from "./footer/Footer";
 
 function App() {
   return (
-    <div>
+    <div className="h-full">
       <GlobalProvider>
         <HelmetProvider>
           <Header />

@@ -10,7 +10,7 @@ root.render(
   <React.StrictMode>
     
     <Router>
-      <div className="bg-teal-50 min-h-screen"> 
+      <div className="bg-[#121111]/90 min-h-screen"> 
         <App />
       </div>
     </Router>

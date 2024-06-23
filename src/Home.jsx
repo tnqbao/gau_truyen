@@ -4,17 +4,17 @@ import { GlobalContext } from "./context/GlobalContext";
 import ComicList from "./contents/ComicList";
 import ComicSlider from "./contents/ComicSlider";
 const Home = () => {
-  const { category, getDataAPI } = useContext(GlobalContext);
+  const { category } = useContext(GlobalContext);
   return (
     <>
       <Helmet>
         <title>Gấu Truyện</title>
       </Helmet>
-      <div className=" flex bg-[#121111] mx-5 md:mx-20 h-2/4 p-10">
-        {category ? <ComicList /> : <ComicSlider />}
-        <div>{category ? "" : <ComicList />}</div>
+      <div className=" flex bg-[#121111]/80 mx-5 md:mx-20 h-full p-5">
+        <div className="">{category ? <ComicList /> : <ComicSlider />}</div>
+        {console.log(category)}
+        <div>{category ? null : <ComicList />}</div>
       </div>
-  
     </>
   );
 };
