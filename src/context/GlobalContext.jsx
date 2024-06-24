@@ -9,15 +9,13 @@ export const GlobalProvider = ({ children }) => {
   const [keyWord, setKeyWords] = useState("");
   const DOMAIN_API = "https://otruyenapi.com";
   const [page, setPage] = useState(1);
-  const [apiURL, setApiURL] = useState(
-    `${DOMAIN_API}/v1/api/home`
-  );
+  const [apiURL, setApiURL] = useState(`${DOMAIN_API}/v1/api/home`);
+  const [globalComics, setGlobalComics] = useState([]);
   const [viewedEpisodes, setViewedEpisodes] = useState({});
   const navigate = useNavigate();
 
   const getDataAPI = useCallback(async (apiURL, setParaFunc) => {
     try {
-      console.log(apiURL)
       const response = await axios.get(apiURL);
       setParaFunc(response.data);
     } catch (error) {
@@ -103,6 +101,7 @@ export const GlobalProvider = ({ children }) => {
       page,
       apiURL,
       viewedEpisodes,
+      globalComics,
       setCategory,
       setKeyWords,
       setPage,
@@ -113,7 +112,8 @@ export const GlobalProvider = ({ children }) => {
       handleEpisodeChange,
       setViewedEpisodes,
       getDataAPI,
-      handleComicClick, 
+      handleComicClick,
+      setGlobalComics,
     }),
     [
       category,
@@ -122,9 +122,11 @@ export const GlobalProvider = ({ children }) => {
       apiURL,
       viewedEpisodes,
       DOMAIN_API,
+      globalComics,
       getDataAPI,
       handleEpisodeChange,
-      handleComicClick, 
+      handleComicClick,
+      setGlobalComics,
     ]
   );
 

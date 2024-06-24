@@ -15,6 +15,7 @@ const ComicList = () => {
     handleComicClick,
     category,
     DOMAIN_API,
+    setGlobalComics
   } = useContext(GlobalContext);
 
   const [windowSize, setWindowSize] = useState({
@@ -50,6 +51,7 @@ const ComicList = () => {
     getDataAPI(`${apiURL}`, (data) => {
       if (Array.isArray(data.data.items)) {
         setComics(data.data.items);
+        setGlobalComics(data.data.items);
         setDataAPI(data.data);
         setTotalPages(
           Math.ceil(
@@ -86,31 +88,28 @@ const ComicList = () => {
           content={`Danh sách truyện thuộc thể loại ${category}. Tìm truyện mới nhất và phổ biến nhất trong thể loại này.`}
         />
       </Helmet>
-      <br />
-      <br />
-      <h1 className="font-medium text-center text-zinc-50 text-xl lg:text-4xl">
+      <h1 className="font-bold text-center text-zinc-50 text-2xl lg:text-4xl">
         {dataAPI.titlePage && String(dataAPI.titlePage).toUpperCase()}
       </h1>
-      <br />
       {dataAPI.titlePage && (
-        <div className="flex justify-center py-5 px-3 border-solid-[#dba902]">
+        <div className="flex justify-center py-5 px-3 border-solid-[#dba902] text-sm">
           <button
-            className="flex-1 cursor-pointer py-3 px-1 m-6 rounded-md font-bold bg-gray-800 text-white relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
+            className="flex-1 cursor-pointer p-3 m-6 rounded-md font-bold bg-gray-800 text-white relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
             onClick={() => handlePageChange(page - 1)}
             disabled={page === 1}
           >
-            Trang Trước
+            <p>Trang Trước</p>
           </button>
           {getPageNumbers().map((pageNumber) => (
             <button
               key={pageNumber}
               disabled={pageNumber === "..."}
               onClick={() => {
-                if (pageNumber !== "...") {
+                if (pageNumber !== "...") { 
                   goToPage(pageNumber);
                 }
               }}
-              className={`flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300 ${
+              className={`flex-1 border-solid cursor-pointer p-3 m-6 rounded-md font-bold relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300 ${
                 pageNumber === page
                   ? "bg-[#dba902] text-black"
                   : "bg-gray-800 text-white hidden md:block"
@@ -120,7 +119,7 @@ const ComicList = () => {
             </button>
           ))}
           <button
-            className="flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold bg-gray-800 text-white relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
+            className="flex-1 border-solid cursor-pointer p-3 m-6 rounded-md font-bold bg-gray-800 text-white relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
             onClick={() => handlePageChange(page + 1)}
             disabled={page >= totalPages}
           >

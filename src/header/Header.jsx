@@ -7,7 +7,7 @@ import React, {
 import {useNavigate} from "react-router-dom"
 import { GlobalContext } from "../context/GlobalContext";
 const Header = () => {
-  const { handleCategorySearch, setCategory, setApiURL, DOMAIN_API, apiURL} = useContext(GlobalContext);
+  const { handleCategorySearch, setCategory, setApiURL, DOMAIN_API} = useContext(GlobalContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const navigate = useNavigate();
@@ -33,7 +33,6 @@ const Header = () => {
     setCategory(null);
     handleCategorySearch(null);
     setApiURL(`${DOMAIN_API}/v1/api/home`);
-    console.log(apiURL);
     navigate(`/`);
   };
 
@@ -68,9 +67,9 @@ const Header = () => {
 
   return (
     <div className="bg-gray-800 text-white p-4 flex items-center justify-between border-2 border-[#1e2020] w-full">
-      <div className="basis-1/3 md:basis-1/4 flex items-center">
+      <div className="basis-1/3 md:basis-1/4 flex items-center ml-5">
         <div
-          className="bg-[url('https://i.imgur.com/F7Zqbq0.png')] w-16 h-16 md:w-24 md:h-24 bg-cover rounded-md border-2 border-yellow-500 cursor-pointer bg-center"
+          className="bg-[url('https://i.imgur.com/3PgVjmN.png')] w-16 h-16 md:w-24 md:h-24 bg-cover rounded-md border-2 border-yellow-500 cursor-pointer bg-center"
           onClick={handleHomeClick}
         />
       </div>

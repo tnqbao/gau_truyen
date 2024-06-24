@@ -43,13 +43,13 @@ const ComicCard = ({ comic }) => {
               : `Chap ${comic.chaptersLatest[0].chapter_name}`
             : ""}
         </div>
-        <div className="absolute top-0 left-0 right-0 h-3/4 bg-gradient-to-t from-black via-black/30 to-transparent rounded-t-md">
-          <div className="absolute bottom-0 left-2 right-2 text-white font-semibold text-xl">
+        <div className="absolute top-0 left-0 right-0 h-4/5 bg-gradient-to-t from-black via-black/30 to-transparent rounded-t-md">
+          <div className="absolute bottom-0 left-2 right-2 text-white font-semibold text-lg">
             {displayName}
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-gradient-to-t from-black to-black">
-          <div className="absolute bottom-7 right-4 left-4 text-center bg-amber-500 hover:bg-green-600 font-semibold rounded-md p-1 text-black">
+        <div className="absolute bottom-0 left-0 right-0 h-1/5 bg-gradient-to-t from-black to-black">
+          <div className="absolute bottom-5 right-4 left-4 text-center bg-amber-500 hover:bg-green-600 font-semibold rounded-md p-1 text-black">
             Xem Truyện
           </div>
         </div>

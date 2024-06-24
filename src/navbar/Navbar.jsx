@@ -4,7 +4,7 @@ import CategoriesSelectMenu from "../CategoriesSelectMenu";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { handleMenuSelect } = useContext(GlobalContext);
+  const { handleMenuSelect, category } = useContext(GlobalContext);
   const menuElementList = [
     "Truyện Mới",
     "Truyện Full",
@@ -42,7 +42,7 @@ const Navbar = () => {
         >
           <ul
             id="top-menu"
-            className={`lg:flex items-center gap-y-3 gap-x-1 flex-wrap list-none ${
+            className={`lg:flex items-center gap-y-3 gap-x-1 flex-wrap list-none ml-5 ${
               menuOpen ? "flex" : "hidden"
             }`}
           >
@@ -50,10 +50,15 @@ const Navbar = () => {
               <li key={e} className="top-menu-icon">
                 {e !== "Thể Loại" ? (
                   <div
-                    className="text-slate-200 text-xl font-medium ml-5 block p-7 cursor-pointer text-balance border-y-slate-500 hover:bg-[#2c3f3b] relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
+                    className={
+                      "text-xl font-medium block p-7 cursor-pointer text-balance border-y-slate-500 hover:bg-[#2c3f3b] relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300 " +
+                      (category === e
+                        ? "bg-white text-black/80 rounded-sm"
+                        : "text-slate-200")
+                    }
                     onClick={() => {
                       handleMenuSelect(e);
-                      setMenuOpen(false); 
+                      setMenuOpen(false);
                     }}
                   >
                     {e}
