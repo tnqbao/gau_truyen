@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import ComicCard from "./ComicCard";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const ComicList = () => {
   const [comics, setComics] = useState([]);
@@ -34,7 +34,7 @@ const ComicList = () => {
   }, []);
 
   const getColumnCount = () => {
-    return Math.ceil((windowSize.width - 720) / 256 + 2);
+    return Math.ceil((windowSize.width - 640) / 256 + 2);
   };
 
   const goToPage = useCallback(
@@ -79,7 +79,7 @@ const ComicList = () => {
   }, [totalPages, page]);
 
   return (
-    <div className="bg-[#121111]/0">
+    <div className="bg-[#121111]/0 w-full">
       <Helmet>
         <meta
           name="description"
@@ -88,14 +88,14 @@ const ComicList = () => {
       </Helmet>
       <br />
       <br />
-      <h1 className="font-medium text-center  text-zinc-50 text-xl lg:text-4xl">
+      <h1 className="font-medium text-center text-zinc-50 text-xl lg:text-4xl">
         {dataAPI.titlePage && String(dataAPI.titlePage).toUpperCase()}
       </h1>
       <br />
-      {dataAPI.titlePage ? (
-        <div className={"flex justify-center py-5 px-3 border-solid-[#dba902]"}>
+      {dataAPI.titlePage && (
+        <div className="flex justify-center py-5 px-3 border-solid-[#dba902]">
           <button
-            className="flex-1  cursor-pointer py-3 px-1  m-6 rounded-md font-bold bg-gray-800 text-white relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
+            className="flex-1 cursor-pointer py-3 px-1 m-6 rounded-md font-bold bg-gray-800 text-white relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
             onClick={() => handlePageChange(page - 1)}
             disabled={page === 1}
           >
@@ -110,12 +110,11 @@ const ComicList = () => {
                   goToPage(pageNumber);
                 }
               }}
-              className={
-                "flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300 " +
-                (pageNumber === page
+              className={`flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300 ${
+                pageNumber === page
                   ? "bg-[#dba902] text-black"
-                  : "bg-gray-800 text-white hidden md:block")
-              }
+                  : "bg-gray-800 text-white hidden md:block"
+              }`}
             >
               {pageNumber}
             </button>
@@ -128,10 +127,8 @@ const ComicList = () => {
             Trang Sau
           </button>
         </div>
-      ) : (
-        ""
       )}
-      <div className="border-2 border-double border-amber-500 overflow-hidden">
+      <div className="border-2 border-double border-amber-500 overflow-hidden w-full">
         <div className="flex flex-wrap justify-start">
           {Array.isArray(comics) &&
             comics.map((comic, index) => (
@@ -152,8 +149,8 @@ const ComicList = () => {
             ))}
         </div>
       </div>
-      {dataAPI.titlePage ? (
-        <div className={"flex justify-center border-solid-[#dba902] p-10"}>
+      {dataAPI.titlePage && (
+        <div className="flex justify-center border-solid-[#dba902] p-10">
           <button
             className="flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold bg-gray-800 text-white relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300"
             onClick={() => handlePageChange(page - 1)}
@@ -170,12 +167,11 @@ const ComicList = () => {
                   goToPage(pageNumber);
                 }
               }}
-              className={
-                "flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300 " +
-                (pageNumber === page
+              className={`flex-1 border-solid cursor-pointer p-3.5 m-6 rounded-md font-bold relative after:absolute after:bottom-0 after:left-0 after:bg-slate-700 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300 ${
+                pageNumber === page
                   ? "bg-[#dba902] text-black"
-                  : "bg-gray-800 text-white hidden md:block")
-              }
+                  : "bg-gray-800 text-white hidden md:block"
+              }`}
             >
               {pageNumber}
             </button>
@@ -188,8 +184,6 @@ const ComicList = () => {
             Trang Sau
           </button>
         </div>
-      ) : (
-        ""
       )}
     </div>
   );
