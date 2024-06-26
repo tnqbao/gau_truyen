@@ -11,7 +11,7 @@ export const GlobalProvider = ({ children }) => {
   const [page, setPage] = useState(1);
   const [apiURL, setApiURL] = useState(`${DOMAIN_API}/v1/api/home`);
   const [globalComics, setGlobalComics] = useState([]);
-  const [viewedEpisodes, setViewedEpisodes] = useState({});
+  const [viewedChapters, setViewedChapters] = useState({});
   const navigate = useNavigate();
 
   const getDataAPI = useCallback(async (apiURL, setParaFunc) => {
@@ -30,6 +30,9 @@ export const GlobalProvider = ({ children }) => {
     setApiURL(`${DOMAIN_API}/v1/api/tim-kiem?keyword=${keyWords || ""}&page=1`);
   };
 
+  const handleChapterClick = (chapter) => {
+    console.log(chapter)
+  };
   const handleComicClick = useCallback(
     (comic) => {
       navigate(`/truyen-tranh/${comic.slug}`);
@@ -87,12 +90,21 @@ export const GlobalProvider = ({ children }) => {
         watchedEpisodes[slug].push(episode);
       }
       localStorage.setItem("watchedEpisodes", JSON.stringify(watchedEpisodes));
-      setViewedEpisodes(watchedEpisodes);
+      setViewedChapters(watchedEpisodes);
       navigate(`/movie/${slug}/watch?ep=${episode}&server=${server}`);
     },
     [navigate]
   );
 
+  const reverseString = (str) => {
+    return str.split("-").reverse().join("-");
+  };
+
+  const DateParse = (dateString) => {
+    let dateStrings = dateString.split("T");
+    dateStrings[1].split(".");
+    return dateStrings[1].split(".")[0] + " " + reverseString(dateStrings[0]);
+  };
   const value = useMemo(
     () => ({
       category,
@@ -100,7 +112,7 @@ export const GlobalProvider = ({ children }) => {
       DOMAIN_API,
       page,
       apiURL,
-      viewedEpisodes,
+      viewedChapters,
       globalComics,
       setCategory,
       setKeyWords,
@@ -110,23 +122,27 @@ export const GlobalProvider = ({ children }) => {
       handleMenuSelect,
       handlePageChange,
       handleEpisodeChange,
-      setViewedEpisodes,
+      setViewedChapters,
       getDataAPI,
       handleComicClick,
       setGlobalComics,
+      DateParse,
+      handleChapterClick,
     }),
     [
       category,
       keyWord,
       page,
       apiURL,
-      viewedEpisodes,
+      viewedChapters,
       DOMAIN_API,
       globalComics,
       getDataAPI,
       handleEpisodeChange,
       handleComicClick,
+      DateParse,
       setGlobalComics,
+      handleChapterClick
     ]
   );
 

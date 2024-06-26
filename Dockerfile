@@ -1,5 +1,8 @@
 # Start with a node base image
-FROM node:18-alpine
+FROM node:18-alpine AS builder
+
+# Set the environment to production
+ENV NODE_ENV production
 
 # Set the working directory
 WORKDIR /app
@@ -11,20 +14,28 @@ COPY package*.json ./
 RUN npm install
 
 # Copy the rest of the application code
-COPY ./src ./src
-COPY ./public ./public
+COPY . .
 
 # Build the React application
 RUN npm run build
 
-# Install the 'serve' package globally to serve the build files
-RUN npm install -g serve
+# Use nginx to serve the application
+FROM nginx:latest
 
-# Remove node_modules to reduce image size
-RUN rm -rf node_modules
+# Set the environment to production
+ENV NODE_ENV production
 
-# Expose port 3000
-EXPOSE 3000
+# Set the working directory
+WORKDIR /usr/share/nginx/html
 
-# Start the application using 'serve'
-CMD ["serve", "-s", "build"]
+# Remove the default nginx static files
+RUN rm -rf ./*
+
+# Copy built files from the builder stage
+COPY --from=builder /app/build .
+
+# Expose port 80
+EXPOSE 80
+
+# Start the application using nginx
+CMD ["nginx", "-g", "daemon off;"]

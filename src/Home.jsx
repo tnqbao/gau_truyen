@@ -5,7 +5,7 @@ import ComicList from "./contents/ComicList";
 import ComicSlider from "./contents/ComicSlider";
 
 const Home = () => {
-  const { category, globalComics } = useContext(GlobalContext);
+  const { category} = useContext(GlobalContext);
 
   return (
     <>

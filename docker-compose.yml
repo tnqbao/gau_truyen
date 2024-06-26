@@ -1,0 +1,10 @@
+version: '4.3'
+
+services:
+  app:
+    container_name: gau-truyen-c
+    image: gau-truyen-i
+    build: 
+      context: .
+    ports:
+      - 8080:80
