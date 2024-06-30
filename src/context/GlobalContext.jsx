@@ -12,6 +12,7 @@ export const GlobalProvider = ({ children }) => {
   const [apiURL, setApiURL] = useState(`${DOMAIN_API}/v1/api/home`);
   const [globalComics, setGlobalComics] = useState([]);
   const [viewedChapters, setViewedChapters] = useState({});
+  const [apiChapter, setApiChapter] = useState("");
   const navigate = useNavigate();
 
   const getDataAPI = useCallback(async (apiURL, setParaFunc) => {
@@ -30,9 +31,11 @@ export const GlobalProvider = ({ children }) => {
     setApiURL(`${DOMAIN_API}/v1/api/tim-kiem?keyword=${keyWords || ""}&page=1`);
   };
 
-  const handleChapterClick = (chapter) => {
-    console.log(chapter)
-  };
+
+  const handleChapterClick = useCallback((slug,index) => {
+    navigate(`/truyen-tranh/doc-truyen/${slug}?chap=${index}`);
+  }, [navigate]);
+
   const handleComicClick = useCallback(
     (comic) => {
       navigate(`/truyen-tranh/${comic.slug}`);
@@ -81,17 +84,17 @@ export const GlobalProvider = ({ children }) => {
     setApiURL((prevURL) => prevURL.replace(/page=\d+/, `page=${newPage}`));
   };
 
-  const handleEpisodeChange = useCallback(
-    (slug, episode, server) => {
-      const watchedEpisodes =
-        JSON.parse(localStorage.getItem("watchedEpisodes")) || {};
-      watchedEpisodes[slug] = watchedEpisodes[slug] || ["1", "Full"];
-      if (!watchedEpisodes[slug].includes(episode)) {
-        watchedEpisodes[slug].push(episode);
+  const handleChapterChange = useCallback(
+    (slug, chapter) => {
+      const watchedChapters =
+        JSON.parse(localStorage.getItem("watchedChapters")) || {};
+      watchedChapters[slug] = watchedChapters[slug] || ["1", "Full"];
+      if (!watchedChapters[slug].includes(chapter)) {
+        watchedChapters[slug].push(chapter);
       }
-      localStorage.setItem("watchedEpisodes", JSON.stringify(watchedEpisodes));
-      setViewedChapters(watchedEpisodes);
-      navigate(`/movie/${slug}/watch?ep=${episode}&server=${server}`);
+      localStorage.setItem("watchedChapters", JSON.stringify(watchedChapters));
+      setViewedChapters(watchedChapters);
+      handleChapterClick(slug,chapter);
     },
     [navigate]
   );
@@ -114,6 +117,7 @@ export const GlobalProvider = ({ children }) => {
       apiURL,
       viewedChapters,
       globalComics,
+      apiChapter,
       setCategory,
       setKeyWords,
       setPage,
@@ -121,13 +125,14 @@ export const GlobalProvider = ({ children }) => {
       handleCategorySearch,
       handleMenuSelect,
       handlePageChange,
-      handleEpisodeChange,
+      handleChapterChange,
       setViewedChapters,
       getDataAPI,
       handleComicClick,
       setGlobalComics,
       DateParse,
       handleChapterClick,
+      setApiChapter,
     }),
     [
       category,
@@ -137,12 +142,14 @@ export const GlobalProvider = ({ children }) => {
       viewedChapters,
       DOMAIN_API,
       globalComics,
+      apiChapter,
       getDataAPI,
-      handleEpisodeChange,
+      handleChapterChange,
       handleComicClick,
       DateParse,
       setGlobalComics,
-      handleChapterClick
+      handleChapterClick,
+      setApiChapter,
     ]
   );
 

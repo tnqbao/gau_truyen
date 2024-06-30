@@ -8,8 +8,6 @@ import ComicDetail from "./contents/ComicDetail";
 import { GlobalProvider } from "./context/GlobalContext";
 import { Route, Routes } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-
-
 import Footer from "./footer/Footer";
 
 function App() {
@@ -23,10 +21,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/danh-sach/:category" element={<Home />} />
             <Route path="/truyen-tranh/:slug" element={<ComicDetail />} />
-            <Route
-              path="/truyen-tranh/:slug/chap=:chap"
-              element={<ChapterContent />}
-            />
+            <Route path="/truyen-tranh/doc-truyen/:slug" element={<ChapterContent />} />
           </Routes>
           <Footer />
         </HelmetProvider>

@@ -3,7 +3,8 @@ import { GlobalContext } from "../context/GlobalContext";
 import { useParams } from "react-router-dom";
 
 const ComicDetail = () => {
-  const { DOMAIN_API, getDataAPI, DateParse, handleChapterClick } = useContext(GlobalContext);
+  const { DOMAIN_API, getDataAPI, DateParse, handleChapterClick } =
+    useContext(GlobalContext);
   const { slug } = useParams();
   const [comic, setComic] = useState(null);
 
@@ -75,13 +76,15 @@ const ComicDetail = () => {
 
                   <div className="flex flex-wrap ml-3 gap-5">
                     <button className="p-3 bg-green-600/50 rounded-xl">
-                      <a href={`/truyen-tranh/${comic.item.slug}/chap=1`}>
+                      <a
+                        href={`/truyen-tranh/doc-truyen/${comic.item.slug}?chap=1`}
+                      >
                         Đọc Từ Đầu
                       </a>
                     </button>
                     <button className="p-3 bg-green-600/50 rounded-xl">
                       <a
-                        href={`/truyen-tranh/${comic.item.slug}/chap=${
+                        href={`/truyen-tranh/${comic.item.slug}?chap=${
                           comic.item.chapters[0].server_data.length + 1
                         }`}
                       >
@@ -102,12 +105,13 @@ const ComicDetail = () => {
               {Array.isArray(comic.item.chapters[0].server_data) &&
                 comic.item.chapters[0].server_data.map((chap, index) => (
                   <li className="" key={index}>
-                    <button className="" onClick={handleChapterClick}>
-                    <a
-                      href={`/truyen-tranh/${comic.item.slug}/chap=${
-                        index + 1
-                      }`}
-                    >{`Chap ${chap.chapter_name} - ${comic.item.name}`}</a>
+                    <button
+                      className=""
+                      onClick={() => {
+                        handleChapterClick(slug,index+1);
+                      }}
+                    >
+                      {`Chap ${chap.chapter_name} - ${comic.item.name}`}
                     </button>
                   </li>
                 ))}

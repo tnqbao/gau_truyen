@@ -42,11 +42,11 @@ const CategoriesSelectMenu = () => {
           menuOpen ? "" : "hidden"
         }`}
       >
-        <div className="flex flex-wrap gap-4 md:gap-2 justify-start">
+        <div className="flex flex-wrap gap-4 md:gap-2 justify-center">
           {categories.map((category) => (
             <div
               key={category._id}
-              className="p-2 hover:bg-gray-200 hover:text-black text-black font-medium cursor-pointer bg-white rounded-md border-zinc-800"
+              className="p-2 w-44 text-center hover:bg-gray-200 hover:text-black text-black font-medium cursor-pointer bg-white rounded-md border-zinc-800"
               onClick={() => {
                 handleMenuSelect(category.slug);
                 setMenuOpen(false); 
