@@ -27,7 +27,7 @@ const ChapterContent = () => {
       getDataAPI(comic[chap - 1].chapter_api_data, (data) => {
         setChapter(data.data.item);
       });
-      window.scrollTo(0, 0);
+      window.scrollTo(0, 400);
     }
   }, [getDataAPI, comic, chap]);
 
