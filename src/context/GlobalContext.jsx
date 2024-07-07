@@ -13,6 +13,8 @@ export const GlobalProvider = ({ children }) => {
   const [globalComics, setGlobalComics] = useState([]);
   const [viewedChapters, setViewedChapters] = useState({});
   const [apiChapter, setApiChapter] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const getDataAPI = useCallback(async (apiURL, setParaFunc) => {
@@ -24,17 +26,19 @@ export const GlobalProvider = ({ children }) => {
     }
   }, []);
 
-  const handleCategorySearch = (keyWords) => {
+  const handleCategorySearch = useCallback((keyWords) => {
     setKeyWords(keyWords || "");
     setCategory(keyWords || null);
     setPage(1);
     setApiURL(`${DOMAIN_API}/v1/api/tim-kiem?keyword=${keyWords || ""}&page=1`);
-  };
+  }, [DOMAIN_API]);
 
-
-  const handleChapterClick = useCallback((slug,index) => {
-    navigate(`/truyen-tranh/doc-truyen/${slug}?chap=${index}`);
-  }, [navigate]);
+  const handleChapterClick = useCallback(
+    (slug, index) => {
+      navigate(`/truyen-tranh/doc-truyen/${slug}?chap=${index}`);
+    },
+    [navigate]
+  );
 
   const handleComicClick = useCallback(
     (comic) => {
@@ -43,7 +47,7 @@ export const GlobalProvider = ({ children }) => {
     [navigate]
   );
 
-  const handleMenuSelect = (newCategory) => {
+  const handleMenuSelect = useCallback((newCategory) => {
     setCategory(newCategory);
     setPage(1);
     const categoryURLs = {
@@ -77,12 +81,12 @@ export const GlobalProvider = ({ children }) => {
       const extractedCategory = extractCategory(url);
       navigate("/danh-sach/" + extractedCategory);
     }
-  };
+  }, [DOMAIN_API, navigate]);
 
-  const handlePageChange = (newPage) => {
+  const handlePageChange = useCallback((newPage) => {
     setPage(newPage);
     setApiURL((prevURL) => prevURL.replace(/page=\d+/, `page=${newPage}`));
-  };
+  }, []);
 
   const handleChapterChange = useCallback(
     (slug, chapter) => {
@@ -94,9 +98,9 @@ export const GlobalProvider = ({ children }) => {
       }
       localStorage.setItem("watchedChapters", JSON.stringify(watchedChapters));
       setViewedChapters(watchedChapters);
-      handleChapterClick(slug,chapter);
+      handleChapterClick(slug, chapter);
     },
-    [navigate]
+    [handleChapterClick]
   );
 
   const reverseString = (str) => {
@@ -108,6 +112,7 @@ export const GlobalProvider = ({ children }) => {
     dateStrings[1].split(".");
     return dateStrings[1].split(".")[0] + " " + reverseString(dateStrings[0]);
   };
+
   const value = useMemo(
     () => ({
       category,
@@ -118,6 +123,8 @@ export const GlobalProvider = ({ children }) => {
       viewedChapters,
       globalComics,
       apiChapter,
+      loading,
+      error,
       setCategory,
       setKeyWords,
       setPage,
@@ -133,6 +140,8 @@ export const GlobalProvider = ({ children }) => {
       DateParse,
       handleChapterClick,
       setApiChapter,
+      setLoading,
+      setError,
     }),
     [
       category,
@@ -143,6 +152,8 @@ export const GlobalProvider = ({ children }) => {
       DOMAIN_API,
       globalComics,
       apiChapter,
+      loading,
+      error,
       getDataAPI,
       handleChapterChange,
       handleComicClick,
@@ -150,6 +161,8 @@ export const GlobalProvider = ({ children }) => {
       setGlobalComics,
       handleChapterClick,
       setApiChapter,
+      setLoading,
+      setError,
     ]
   );
 

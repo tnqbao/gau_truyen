@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import ComicCard from "./ComicCard";
 import { Helmet } from "react-helmet-async";
+import LoadingPage from "./LoadingPage";
 
 const ComicList = () => {
   const [comics, setComics] = useState([]);
@@ -15,7 +16,11 @@ const ComicList = () => {
     handleComicClick,
     category,
     DOMAIN_API,
-    setGlobalComics
+    setGlobalComics,
+    loading,
+    error,
+    setLoading,
+    setError
   } = useContext(GlobalContext);
 
   const [windowSize, setWindowSize] = useState({
@@ -48,6 +53,7 @@ const ComicList = () => {
   const columnCount = getColumnCount();
 
   useEffect(() => {
+    setLoading(true);
     getDataAPI(`${apiURL}`, (data) => {
       if (Array.isArray(data.data.items)) {
         setComics(data.data.items);
@@ -59,8 +65,9 @@ const ComicList = () => {
               data.data.params.pagination.totalItemsPerPage
           ) || 1
         );
+        setLoading(false);
       } else {
-        console.error("Expected data to be an array", data);
+        
       }
     });
   }, [getDataAPI, apiURL]);
@@ -79,6 +86,18 @@ const ComicList = () => {
     }
     return [];
   }, [totalPages, page]);
+
+  if (loading) {
+    return (
+      <LoadingPage />
+    );
+  }
+
+  if (error) {
+    return (
+      <LoadingPage error={error}/>
+    );
+  }
 
   return (
     <div className="bg-[#121111]/0 w-full">

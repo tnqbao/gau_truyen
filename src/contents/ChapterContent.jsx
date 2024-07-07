@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import { useParams, useSearchParams } from "react-router-dom";
 import ChapterMenuChange from "./ChapteMenuChange";
+import LoadingPage from "./LoadingPage";
 
 const ChapterContent = () => {
-  const { getDataAPI } = useContext(GlobalContext);
+  const { getDataAPI, loading, error, setLoading } = useContext(GlobalContext);
   const [comic, setComic] = useState([]);
   const { slug } = useParams();
   const [searchParams] = useSearchParams();
@@ -12,6 +13,7 @@ const ChapterContent = () => {
   const [chapter, setChapter] = useState({});
 
   useEffect(() => {
+    setLoading(true);
     getDataAPI(
       `https://otruyenapi.com/v1/api/truyen-tranh/${slug}`,
       (data) => {
@@ -20,7 +22,7 @@ const ChapterContent = () => {
       
     );
     
-  }, [getDataAPI, slug]);
+  }, [getDataAPI, slug, setLoading]);
 
   useEffect(() => {
     if (Array.isArray(comic) && comic.length > 0 && chap > 0 && chap <= comic.length) {
@@ -28,8 +30,21 @@ const ChapterContent = () => {
         setChapter(data.data.item);
       });
       window.scrollTo(0, 400);
+      setLoading(false);
     }
-  }, [getDataAPI, comic, chap]);
+  }, [getDataAPI, comic, chap, setLoading]);
+
+  if (loading) {
+    return (
+      <LoadingPage />
+    );
+  }
+
+  if (error) {
+    return (
+      <LoadingPage error={error}/>
+    );
+  }
 
   return (
     <div>
