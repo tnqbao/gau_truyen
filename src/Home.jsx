@@ -12,7 +12,7 @@ const Home = () => {
       <Helmet>
         <title>Gấu Truyện</title>
       </Helmet>
-      <div className="bg-white/10 mx-5 md:mx-40 h-full p-5 flex flex-col items-center justify-center">
+      <div className="bg-white/10 mx-5 md:mx-28 h-full p-5 flex flex-col items-center justify-center">
         {category ? <ComicList /> : <ComicSlider />}
         <div className="w-full">
           {!category && (

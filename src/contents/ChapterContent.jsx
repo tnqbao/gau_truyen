@@ -5,51 +5,61 @@ import ChapterMenuChange from "./ChapteMenuChange";
 import LoadingPage from "./LoadingPage";
 
 const ChapterContent = () => {
-  const { getDataAPI, loading, error, setLoading } = useContext(GlobalContext);
+  const { getDataAPI, loading, error, setLoading, chapterNames } = useContext(GlobalContext);
   const [comic, setComic] = useState([]);
   const { slug } = useParams();
   const [searchParams] = useSearchParams();
-  const chap = parseInt(searchParams.get('chap'), 10); 
+  const i = parseInt(searchParams.get("i"));
   const [chapter, setChapter] = useState({});
 
   useEffect(() => {
+    let isMounted = true; 
     setLoading(true);
-    getDataAPI(
-      `https://otruyenapi.com/v1/api/truyen-tranh/${slug}`,
-      (data) => {
+    getDataAPI(`https://otruyenapi.com/v1/api/truyen-tranh/${slug}`, (data) => {
+      if (isMounted) {
         setComic(data.data.item.chapters[0].server_data);
+        console.log(chapterNames)
+        setLoading(false);
       }
-      
-    );
-    
+    });
+
+    return () => {
+      isMounted = false; 
+    };
   }, [getDataAPI, slug, setLoading]);
 
   useEffect(() => {
-    if (Array.isArray(comic) && comic.length > 0 && chap > 0 && chap <= comic.length) {
-      getDataAPI(comic[chap - 1].chapter_api_data, (data) => {
-        setChapter(data.data.item);
+    if (Array.isArray(comic) && comic.length > 0 && i >= 0 && i <= comic.length) {
+      let isMounted = true; 
+      setLoading(true);
+      getDataAPI(comic[i-1].chapter_api_data, (data) => {
+        if (isMounted) {
+          setChapter(data.data.item);
+          setLoading(false);
+        }
       });
       window.scrollTo(0, 400);
-      setLoading(false);
+
+      return () => {
+        isMounted = false; 
+      };
     }
-  }, [getDataAPI, comic, chap, setLoading]);
+  }, [getDataAPI, comic, i, setLoading]);
 
   if (loading) {
-    return (
-      <LoadingPage />
-    );
+    return <LoadingPage />;
   }
 
   if (error) {
-    return (
-      <LoadingPage error={error}/>
-    );
+    return <LoadingPage error={error} />;
   }
 
   return (
-    <div>
-      <h1 className="text-white text-xl w-full text-center">{"[Chương - " + chap + "]"}</h1>
-      <ChapterMenuChange chapters={comic} slug={slug}/>
+    <div className="bg-gray-900">
+      <h1 className="text-white text-xl w-full text-center">
+        {"[Chương - " + chapterNames[i] + "]"}
+      </h1>
+      <ChapterMenuChange chapters={comic} slug={slug} />
       <div className="w-full p-10 flex justify-center items-center flex-col">
         {Array.isArray(chapter.chapter_image) &&
           chapter.chapter_image.map((page, index) => (
@@ -60,8 +70,8 @@ const ChapterContent = () => {
               loading="lazy"
             />
           ))}
-      </div>
-      <ChapterMenuChange chapters={comic} slug={slug}/>
+      </div> 
+      <ChapterMenuChange chapters={comic} slug={slug} />
     </div>
   );
 };

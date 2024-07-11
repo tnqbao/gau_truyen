@@ -29,14 +29,14 @@ const ComicCard = ({ comic }) => {
           alt={comic.name}
           loading="lazy"
         />
-        <div className="hidden lg:block absolute top-1 left-1 text-center bg-green-600 font-semibold rounded-md p-1 text-black">
+        <div className="hidden lg:block absolute top-1 left-1 text-center bg-green-600 font-semibold text-xs rounded-md p-1 text-black">
           {comic.status === "completed"
             ? "Hoàn Thành"
             : comic.status === "coming_soon"
             ? "Sắp Ra Mắt"
             : "Đang Ra"}
         </div>
-        <div className="absolute top-1 right-1 text-center bg-red-600 font-semibold rounded-md p-1 text-black">
+        <div className="absolute top-1 right-1 text-center bg-red-600 font-semibold text-xs rounded-md p-1 text-black">
           {comic.chaptersLatest
             ? comic.status === "completed"
               ? `${comic.chaptersLatest[0].chapter_name} Chap`

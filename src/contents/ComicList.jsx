@@ -19,8 +19,7 @@ const ComicList = () => {
     setGlobalComics,
     loading,
     error,
-    setLoading,
-    setError
+    setLoading
   } = useContext(GlobalContext);
 
   const [windowSize, setWindowSize] = useState({
@@ -40,7 +39,7 @@ const ComicList = () => {
   }, []);
 
   const getColumnCount = () => {
-    return Math.ceil((windowSize.width - 640) / 256 + 2);
+    return Math.ceil((windowSize.width - 640) / 256 + 1);
   };
 
   const goToPage = useCallback(
@@ -70,7 +69,7 @@ const ComicList = () => {
         
       }
     });
-  }, [getDataAPI, apiURL]);
+  }, [getDataAPI, apiURL, setGlobalComics, setLoading]);
 
   const getPageNumbers = useCallback(() => {
     if (totalPages <= 5) {
