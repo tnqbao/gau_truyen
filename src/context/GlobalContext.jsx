@@ -22,13 +22,17 @@ export const GlobalProvider = ({ children }) => {
     localStorage.setItem("watchedChapters", JSON.stringify(viewedChapters));
   }, [viewedChapters]);
 
-  const getDataAPI = useCallback(async (apiURL, setParaFunc) => {
+  const getDataAPI = useCallback(async (apiURL, setParaFunc, signal) => {
     try {
-      const response = await axios.get(apiURL);
+      const response = await axios.get(apiURL, { signal });
       setParaFunc(response.data);
     } catch (error) {
-      console.error("Error fetching data:", error);
-      setError(error.message);
+      if (axios.isCancel(error)) {
+        console.log("Request canceled", error.message);
+      } else {
+        console.error("Error fetching data:", error);
+        setError(error.message);
+      }
     }
   }, []);
 

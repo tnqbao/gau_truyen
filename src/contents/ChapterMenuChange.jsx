@@ -42,7 +42,7 @@ const ChapterMenuChange = ({ chapters = [], slug }) => {
           type="button"
           onClick={toggleDropdown}
         >
-          {'Chapter ' + i}
+          {'Chapter ' + chapters[i-1].chapter_name}
           <svg
             className="w-2.5 h-2.5 ml-3"
             aria-hidden="true"
@@ -69,7 +69,7 @@ const ChapterMenuChange = ({ chapters = [], slug }) => {
               {getVisibleChapters().map((e, index) => (
                 <li key={index} id={`chapter-${e.chapter_name}`}>
                   <div
-                    className={`"block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer " + ${index+1===i ? "bg-gray-500/50" : "bg-white" } `}
+                    className={`"block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer " + ${index===i-1 ? "bg-gray-500/50" : "bg-white" } `}
                     onClick={() => {
                       handleChapterChange(slug, index);
                       setDropdownVisible(false);

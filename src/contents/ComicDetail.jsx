@@ -7,13 +7,12 @@ const ComicDetail = () => {
   const {
     DOMAIN_API,
     getDataAPI,
-    handleChapterClick,
     loading,
     error,
     setLoading,
     setError,
     chapterNames,
-    setChapterNames
+    setChapterNames,
   } = useContext(GlobalContext);
   const { slug } = useParams();
   const [comic, setComic] = useState(null);
@@ -39,7 +38,7 @@ const ComicDetail = () => {
       const chapterNames_ = comic.item.chapters[0].server_data.map(
         (chap) => chap.chapter_name
       );
-      console.log(chapterNames_)
+      console.log(chapterNames_);
       setChapterNames(chapterNames_);
     }
   }, [comic, setChapterNames]);
@@ -53,7 +52,7 @@ const ComicDetail = () => {
   }
 
   return (
-    <div className="text-white w-full h-full bg-bg-gray-900 p-5">
+    <div className="text-white w-full h-full bg-gray-900 p-5">
       {comic ? (
         <div className="overflow-hidden w-full items-start bg-black/30">
           <div className="flex items-start justify-start">
@@ -135,7 +134,9 @@ const ComicDetail = () => {
                             comic.item.category.map((e, index) => (
                               <span key={index} className="text-wrap">
                                 {e.name}
-                                {index + 1 < comic.item.category.length ? " " : ""}
+                                {index + 1 < comic.item.category.length
+                                  ? " "
+                                  : ""}
                               </span>
                             ))}
                         </td>
@@ -144,12 +145,16 @@ const ComicDetail = () => {
                   </table>
                   <div className="flex flex-wrap p-10 justify-start gap-10 ">
                     <button className="p-2 bg-green-600/50 rounded-xl">
-                      <a href={`/truyen-tranh/doc-truyen/${comic.item.slug}?i=1`}>
+                      <a
+                        href={`/truyen-tranh/doc-truyen/${comic.item.slug}?i=1`}
+                      >
                         Đọc Từ Đầu
                       </a>
                     </button>
                     <button className="p-2 bg-green-600/50 rounded-xl">
-                      <a href={`/truyen-tranh/doc-truyen/${comic.item.slug}?i=${chapterNames[chapterNames.length-1]}`}>
+                      <a
+                        href={`/truyen-tranh/doc-truyen/${comic.item.slug}?i=${chapterNames.length}`}
+                      >
                         Đọc Mới Nhất
                       </a>
                     </button>
@@ -159,29 +164,31 @@ const ComicDetail = () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap mt-5 text-black rounded-lg border-4 bg-white/50">
-            <h2 className="text-2xl font-bold text-center w-full">Nội Dung</h2>
+          <div className="flex flex-wrap mt-5 text-black rounded-lg border-4  bg-gray-900 ">
+            <h2 className="text-2xl font-bold text-center w-full bg-gradient-to-r from-amber-500 to-white bg-clip-text text-transparent">Nội Dung</h2>
             <hr />
-            <p className="text-wrap ml-2">
+            <p className="text-wrap ml-2 bg-gradient-to-r from-amber-500 to-white bg-clip-text text-transparent">
               {comic.item.content.startsWith("<p>")
                 ? comic.item.content.split("<p>")[1].split("</p>")[0]
                 : comic.item.content}
             </p>
           </div>
-          <div className="rounded-lg border-4 bg-white/50">
-            <h2 className="text-2xl font-bold text-black px-1 py-5 text-center w-full">
+          <div className="rounded-lg border-4  bg-gray-900 mt-5">
+            <h2 className="text-2xl font-bold text-black px-1 py-5 text-center w-full bg-gradient-to-r from-amber-500 to-white bg-clip-text text-transparent ">
               Danh Sách Chương
             </h2>
-            <ul>
+            <ul className="flex flex-col w-full flex-wrap justify-center items-center">
               {Array.isArray(comic.item.chapters[0].server_data) &&
                 comic.item.chapters[0].server_data.map((chap, index) => (
-                  <li key={index}>
-                    <button
-                      className={`p-3 text-black w-full text-left ${index % 2 === 0 ? "bg-black/10" : ""}`}
-                      onClick={() => handleChapterClick(slug, index)}
+                  <li key={index} className={`w-full ${
+                        index % 2 === 0 ? "bg-black/10" : ""
+                      }`}>
+                    <a
+                      className={`text-white bg-gradient-to-r from-amber-500 to-white bg-clip-text text-transparents w-full text-left my-5`}
+                      href={`/truyen-tranh/doc-truyen/${comic.item.slug}?i=${index+1}`}
                     >
                       {`Chương ${chap.chapter_name} - ${comic.item.name}`}
-                    </button>
+                    </a>
                   </li>
                 ))}
             </ul>
