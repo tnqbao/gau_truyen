@@ -180,11 +180,11 @@ const ComicDetail = () => {
             <ul className="flex flex-col w-full flex-wrap justify-center items-center">
               {Array.isArray(comic.item.chapters[0].server_data) &&
                 comic.item.chapters[0].server_data.map((chap, index) => (
-                  <li key={index} className={`w-full ${
+                  <li key={index} className={`w-full py-5 ${
                         index % 2 === 0 ? "bg-black/10" : ""
                       }`}>
                     <a
-                      className={`text-white bg-gradient-to-r from-amber-500 to-white bg-clip-text text-transparents w-full text-left my-5`}
+                      className={`text-white bg-gradient-to-r from-amber-500 to-white bg-clip-text text-transparents w-full text-left pl-5`}
                       href={`/truyen-tranh/doc-truyen/${comic.item.slug}?i=${index+1}`}
                     >
                       {`Chương ${chap.chapter_name} - ${comic.item.name}`}
