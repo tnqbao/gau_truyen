@@ -39,7 +39,7 @@ const ComicList = () => {
   }, []);
 
   const getColumnCount = () => {
-    return Math.ceil((windowSize.width - 640) / 256 + 1);
+    return Math.ceil((windowSize.width - 640) / 256 + 2);
   };
 
   const goToPage = useCallback(
